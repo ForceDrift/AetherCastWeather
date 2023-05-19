@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src= "https://cdn.tailwindcss.com"> </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+      </style>
+    
+    <title>Document</title>
+</head>
+            <!-- Main BG -->
+         <body class="conatiner bg-gray-700">
+    <main>
+        <!-- NavBar -->
+        <section class="min-h-screen">
+         <nav class="p-5 mb-12 flex justify-center bg-gray-800" >
+            <h1 class="text-2xl cursor-pointer font-bold px-10 text-white text-center">AetherCast</h1>
+         </nav>
+
+         <!-- Main Weather Caster -->
+<div class="boxmover flex justify-center py-52" >
+    <div class="w-80 h-52 py-12 flex items items-center flex justify-center bg-white rounded-md " >
+        <div class="search">
+            <input type="text" class="font-mono text-center p-1" placeholder="Enter City Name" id="cityInput">
+            <div class="stats py-5 font-mono ">
+               <p class="temp" class="p-1">Temperatu</p>
+                <p class="humidity"class="p-1">Humidity:</p>
+                <p class="wind" class="p-1">WindSpeed </p>
+            </div>
+        </div>
+   
+</div>
+   
+        </section>
+    </main>
+
+    <script>
+               const API_KEY = "7d130e4a7fc83b895dd5282d462cd7ec";
+        const APP_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=`;
+
+        async function checkWeather(city) {
+            const response = await fetch(`${APP_URL}${city}&appid=${API_KEY}`);
+            const data = await response.json();
+
+            console.log(data);
+
+            document.querySelector(".temp").innerHTML = `${Math.round(data.main.temp)}°C`;
+            document.querySelector(".humidity").innerHTML = `Humidity: ${data.main.humidity}%`;
+            document.querySelector(".wind").innerHTML = `WindSpeed: ${data.wind.speed} Km/h`;
+        }
+
+        const cityInput = document.querySelector("#cityInput");
+
+        cityInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const city = cityInput.value.trim();
+                if (city !== "") {
+                    checkWeather(city);
+                    cityInput.value = ""; // Clear the input field after submitting
+                }
+            }
+        });
+
+        checkWeather("brampton");
+
+    </script>
+
+    
+</body>
+</html>
